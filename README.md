@@ -44,9 +44,9 @@ In order to get a better understadning of the distribution of rebounds per game 
 
  To further examine how the total rebounds per game interact with other features, I used groupby functions to display how many rebounds a player has on average against specific teams. For example, in the table below (which is sorted in asecnding order) the first row indicates that a player on average has 4.94 rebounds when playing against the New York Kincks. This may suggest that the Knicks play better box-out defense causing opposing players on avergae to have worse reboudning perfomances. However the variance of the avergae rebounds allowed is quite small and the range is even less than one. Therefore while the opposing team may play some role in a player's rebounds that game, it likely will not have a significant effect due its lack of variation in decribing rebounds per game.
 
-<div style="display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: nowrap;">
-  <iframe src="assets/groupl.html" width="400" height="800" style="border: none;"></iframe>
-  <iframe src="assets/groupr.html" width="400" height="800" style="border: none;"></iframe>
+<div style="display: flex; justify-content: start; margin-left: 100px; gap: 20px; flex-wrap: nowrap;">
+  <iframe src="assets/groupl.html" width="400" height="800" frameborder="0"></iframe>
+  <iframe src="assets/groupr.html" width="400" height="800" frameborder="0"></iframe>
 </div>
 
 
