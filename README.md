@@ -29,7 +29,7 @@ In order to get a better understadning of the distribution of rebounds per game 
 <iframe
  src="assets/uniplot.html"
  width="700"
- height="500"
+ height="470"
  frameborder="0"
  ></iframe>
 
@@ -38,7 +38,7 @@ In order to get a better understadning of the distribution of rebounds per game 
  <iframe
  src="assets/biplot.html"
  width="700"
- height="500"
+ height="470"
  frameborder="0"
  ></iframe>
 
