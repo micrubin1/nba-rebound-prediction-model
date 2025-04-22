@@ -92,7 +92,7 @@ To prepare the features, I:
 
 - Applied standard scaling to all numerical features to ensure fair regularization treatment.
 
-- Specifically to obtain the day of week feature I transformed the date column of datetime objects into strings corresponding to the day of the week using the datetime day_name function.
+- Specifically to obtain the day of week feature, transformed the date column of datetime objects into strings corresponding to the day of the week using the datetime day_name function.
 
 - Used one-hot encoding for categorical variables (team, opponent team, day of the week) to convert them into a usable format without assuming ordinal relationships.
 
