@@ -21,5 +21,5 @@ From a coaching and developmnet perspective, rebounds are a key indicator of pla
 # Data Cleaning and Exploratory Data Analysis
 Not much extensive data cleaning was needed after I created the custom dataset. The main issue was some columns did contain missing values. In particular, rows assocaited with a player's first game of the season had missing values for the Cur_RPG, STD_RPG, Cur_BPG columns. The reason lies that in order to caclulate means and standard deiations at least one sample is required, however before the first game the players have not played any previous games and therefore its impossible to calculate any the mean and standard deviation of any statistic. One possible idea would be to impute the missing mean values with the players previous season's statistic averages. However I ultimately decided to simply drop the rows containing the missing values. Since the missing values occured only once per player in a specific season, I only lost a small amount of data by dropping rows with NaN values. Additioanlly I converted the Date column from string objects to datetime objects in order to help with later feature engineering.
 
-<iframe src="assets/cleaned.html" width="500" height="500" frameborder="0">
+<iframe src="assets/cleaned.html" width="700" height="500" frameborder="0">
 </iframe>
