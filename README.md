@@ -23,12 +23,11 @@ Not much extensive data cleaning was needed after I created the custom dataset. 
 
 <iframe src="assets/clean.html" width="700" height="500" frameborder="0">
 </iframe>
-
 In order to get a better understadning of the distribution of rebounds per game across the league, I plotted a histogram. The plot suggets rebounds per game are roughly normally distributed and skewed to the right. Many players tended to have a lower amount of rebounds per game, while there were a few outliers who had higher rebound games. Given an arbitrary player wiith no infromation, the plot would suggest its more likely they have a lower amount of rebounds in a game.
 
 <iframe
  src="assets/uniplot.html"
- width="800"
+ width="700"
  height="600"
  frameborder="0"
  ></iframe>
@@ -37,7 +36,7 @@ In order to get a better understadning of the distribution of rebounds per game 
 
  <iframe
  src="assets/biplot.html"
- width="800"
+ width="700"
  height="600"
  frameborder="0"
  ></iframe>
