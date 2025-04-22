@@ -64,8 +64,8 @@ For my baseline model, I implemented a Linear Regression model to predict the nu
 
 Both features are quantitative and continuous in nature. Since there are no ordinal or nominal variables in this version of the model, no encoding was required. After splitting the dataset into training and test sets to evaluate the model's ability to generalize to unseen data, the model achieved the following performance metrics:
 
-- Training Mean Squared Error (MSE): 7.5993
-- Test Mean Squared Error (MSE): 7.0729
+- Training Mean Squared Error (MSE): 7.4483
+- Test Mean Squared Error (MSE): 7.5218
 
 This performance is considered reasonably good for a baseline model. Notably, the test MSE is approximately half the size of the variance of the target variable on the test set (13.9071). This suggests the model performs significantly better than a constant (mean) prediction baseline, which is an encouraging sign. The model captures key physical and statistical indicators that are intuitively important for predicting rebounds. Player height influences rebounding ability due to reach and positioning, while current average rebounds per game reflects recent form and role within the team. Although simple, the baseline model establishes a solid foundation for further improvement.
 
@@ -98,10 +98,10 @@ To prepare the features, I:
 
 To develop my final model, I experimented with three candidate modeling algorithms: linear regression, ridge regression, and lasso regression. Ultimately all candidates performed very similar to one another - however ridge regression had the best test MSE by a slight margin. Therefore I selected ridge regression for my final model, which is a regularized version of linear regression that penalizes large coefficients to reduce overfitting. For the final model, the only hyperparameter I considered tuning was the regularization strength. To actually select the optimal regularization strength (alpha), I used GridSearchCV with cross-validation. The grid search tested several values of alpha, and ultimately selected alpha = 100. Using the same training and test set used to evaluate the baseline model, the final model achieved the following performance metrics:
 
-- Training Mean Squared Error (MSE): 7.3973
-- Test Mean Squared Error (MSE): 6.9673
+- Training Mean Squared Error (MSE): 7.2654
+- Test Mean Squared Error (MSE): 7.3664
 
-The final model slightly improves over the baseline in both training and test error, with about a 1.5% decrease in the test MSE. While modest, this improvement shows that the additional features captured new predictive signals beyond what the baseline provided. This was expected, as the baseline already included two strong predictors (current rebounds per game and height), but the added features enabled the model to better contextualize performance and matchups.
+The final model slightly improves over the baseline in both training and test error, with about a 2% decrease in the test MSE. While modest, this improvement shows that the additional features captured new predictive signals beyond what the baseline provided. This was expected, as the baseline already included two strong predictors (current rebounds per game and height), but the added features enabled the model to better contextualize performance and matchups.
 
 Overall, the final model is a meaningful upgrade over the baseline — it generalizes slightly better and is more robust due to regularization and more expressive features, all grounded in a logical understanding of basketball performance dynamics.
 
