@@ -1,6 +1,7 @@
 # Introduction
 For the final project, I’m exploring NBA basketball data collected from [Basketball Reference](https://www.basketball-reference.com/), a comprehensive database that tracks detailed player and game statistics. Basetball Reference contains an enourmous amount of data so in order to make my analyis more manageable, I constructed a custom dataset specifically designed to support the goals of my investigation. To do this, I used BeatifulSoup to scrape player game log data for 139 NBA players across the 2022-2023, 2023-2024, 2024-2025 seasons as well as team roster data for the same seasons. Then I wrote custom functions to aggrgeate and modify the data in order to capture attributes relevant to my driving question. Speaking of which, the central question I'm exploring is:
 **What is the relationship between the number of rebounds for a specific player in a given game and other statstics/player attributes?** While indeed the question is broad, it is designed to help build upon the later corresponding prediction problem. The dataset contains 17,954 rows and 14 columns. Each row corresponds to a game log for a particular player. A description of each column follows:
+
 - Player_Name: name of NBA player
 - Date: date of NBA game
 - TRB: total rebounds for the palyer in the game
@@ -50,10 +51,11 @@ In order to get a better understadning of the distribution of rebounds per game 
 As mentioned earlier no imputations were perofmaned since all missing values were removed from the dataset. I considered the idea of imputing current average rebounds/blocks per game for the first game of the season with past season averages. However I decided against this because in general there is a lot of variability and uncertianty within the first game(s) of the NBA season. It can sometimes takes a while for player to perform up to their expectations from previous seasons. Therefore since I do not believe removing rows for player's first game of the season takes away siginifcant infromation from the dataset, I decided to drop the missing value rows.
 
 # Framing a Prediction Problem
-The prediction problem I aim to solve is: **Predict how many rebounds a player will have in a specific game**. Although in reality the number of rebounds can only be an integer number, regression is still suitable for this task as decimal outputs still have an intuitive meaning in this context. At the time of prediction, relevant features such as current average rebounds/blocks per game will be avaiable because we defined them to be the current average at the time before the game. Other features such as heights and teams are also obviously known at time of prediction as height is always obsevrable and games are scheduled in advance. I chose the response variable to be total rebounds becuase I am interested in studying how machine learning models can assist in player prop betting startegies. Also more broadly speaking I'm interested in the idea of how historical data can help predict future results. To evalaute my model I will be using the mean sqaured error metric. While I could have potentially used mean absolute error, I want to ensure that predictions farther off from their true value are assigned a larger penalty. Under mean absolute error, far-off predictions are not punsihed as severly compared to mean sqaured error due to the squared term, and therefore that is why I selected mean sqaured error for my performance metric.
+The prediction problem I aim to solve is: **Predict how many rebounds a player will have in a specific game**. Although in reality the number of rebounds can only be an integer number, regression is still suitable for this task as decimal outputs still have an intuitive meaning in this context. At the time of prediction, relevant features such as current average rebounds/blocks per game will be avaiable because we defined them to be the current average at the time before the game. Other features such as heights and teams are also obviously known at time of prediction as height is always obsevrable and games are scheduled in advance. I chose the response variable to be total rebounds becuase I am interested in studying how machine learning models can assist in player prop betting startegies. Also more broadly speaking I'm interested in the idea of how historical data can help predict future results. To evalaute my model I will be using the mean sqaured error metric. While I could have potentially used mean absolute error, I want to ensure that predictions farther off from their true value are assigned a larger penalty. Under mean absolute error, far-off predictions are not punsihed as severly compared to mean sqaured error due to the squared term, therefore I selected mean sqaured error for my performance metric.
 
 # Baseline Model
 For my baseline model, I implemented a Linear Regression model to predict the number of rebounds a player will have in a specific game. The model utilizes two features:
+
 1. Current Average Rebounds Per Game (Cur_RPG)
 2. Player Height
 
@@ -65,3 +67,40 @@ Both features are quantitative and continuous in nature. Since there are no ordi
 This performance is considered reasonably good for a baseline model. Notably, the test MSE is approximately half the size of the variance of the target variable on the test set (13.9071). This suggests the model performs significantly better than a constant (mean) prediction baseline, which is an encouraging sign. The model captures key physical and statistical indicators that are intuitively important for predicting rebounds. Player height influences rebounding ability due to reach and positioning, while current average rebounds per game reflects recent form and role within the team. Although simple, the baseline model establishes a solid foundation for further improvement.
 
 # Final Model
+To improve upon my baseline model, I added several features that I believe capture meaningful aspects of the data generating process for a player's rebounds in a given game:
+
+1. Team – A player's team can influence rebound opportunities based on style of play. For example, teams with poor outside shooting may create more offensive rebound chances, and teams with strong interior defense may affect defensive rebounds.
+
+2. Opposition Team (Opp) – The opposing team can impact rebounds depending on their shooting efficiency, defensive strategy, and overall pace of play, all of which affect rebound distribution during a game.
+
+3. Standard Deviation of Current Rebounds per Game (STD_RPG) – While average RPG reflects central tendency, the standard deviation captures consistency of performance. More volatile players might be harder to predict, so this feature helps adjust for that uncertainty.
+
+4. Current Average Blocks per Game (Cur_BPG) – Blocking and rebounding both require similar physical traits (e.g., height, timing, verticality). Players who block shots may also be positioned well for rebounds.
+
+5. Opponent Average Height (Opp_Avg_Height) – Taller opponents are likely more competitive on the boards. Including this metric helps account for matchup difficulty.
+
+6. Games Played – This reflects sample size reliability. Early in the season, averages based on a small number of games may not be stable, so including games played helps the model understand variance in performance.
+
+7. Previous Season RPG (Prev_Szn_RPG) – Early-season stats may not be reflective of a player’s true average, so past season performance provides contextual grounding and historical consistency.
+
+8. Day of the Week – There may be subtle, hard-to-detect performance patterns depending on the day (e.g., fatigue, travel schedules), so including this adds temporal context.
+
+To prepare the features, I:
+
+- Applied standard scaling to all numerical features to ensure fair regularization treatment.
+
+- Specifically to obtain the day of week feature I transformed the date column of datetime objects into strings corresponding to the day of the week using the datetime day_name function.
+
+- Used one-hot encoding for categorical variables (team, opponent team, day of the week) to convert them into a usable format without assuming ordinal relationships.
+
+To develop my final model, I experimnetd with three candidate modeling algorithms: linear regrsion, ridge regression, and lasso regression. Ultimately all candidates perfomed very similar to one another - however ridge regression had the best test MSE by a slight margin. Therefor I selected ridge regression for my final model, which is a regularized version of linear regression that penalizes large coefficients to reduce overfitting. For the final model, the only hyperparameter I cosndiered tuning was the regularization strength. To actually select the optimal regularization strength (alpha), I used GridSearchCV with cross-validation. The grid search tested several values of alpha, and ultimately selected alpha = 100. Using the same training and test set used to evaluate the baseline model, the final model achieved the following performance metrics:
+
+- Training Mean Squared Error (MSE): 7.3973
+- Test Mean Squared Error (MSE): 6.9673
+
+The final model slightly improves over the baseline in both training and test error, with about a 1.5% decrease in the test MSE. While modest, this improvement shows that the additional features captured new predictive signals beyond what the baseline provided. This was expected, as the baseline already included two strong predictors (current rebounds per game and height), but the added features enabled the model to better contextualize performance and matchups.
+
+Overall, the final model is a meaningful upgrade over the baseline — it generalizes slightly better and is more robust due to regularization and more expressive features, all grounded in a logical understanding of basketball performance dynamics.
+
+
+
