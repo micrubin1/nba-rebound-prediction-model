@@ -44,15 +44,11 @@ In order to get a better understadning of the distribution of rebounds per game 
 
  To further examine how the total rebounds per game interact with other features, I used groupby functions to display how many rebounds a player has on average against specific teams. For example, in the table below (which is sorted in asecnding order) the first row indicates that a player on average has 4.94 rebounds when playing against the New York Kincks. This may suggest that the Knicks play better box-out defense causing opposing players on avergae to have worse reboudning perfomances. However the variance of the avergae rebounds allowed is quite small and the range is even less than one. Therefore while the opposing team may play some role in a player's rebounds that game, it likely will not have a significant effect due its lack of variation in decribing rebounds per game.
 
-<div style="width: 100%;, display: flex; gap: 10px; justify-content: center;">
-    <div>
-        <iframe src="assets/groupl.html" width="400" height="800" frameborder="0"></iframe>
-    </div>
-    <div>
-        <iframe src="assets/groupr.html" width="400" height="800" frameborder="0"></iframe>
-    </div>
-
+<div style="display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: nowrap;">
+  <iframe src="assets/groupl.html" width="400" height="800" style="border: none;"></iframe>
+  <iframe src="assets/groupr.html" width="400" height="800" style="border: none;"></iframe>
 </div>
+
 
 
 As mentioned earlier no imputations were perofmaned since all missing values were removed from the dataset. I considered the idea of imputing current average rebounds/blocks per game for the first game of the season with past season averages. However I decided against this because in general there is a lot of variability and uncertianty within the first game(s) of the NBA season. It can sometimes takes a while for players to perform up to their expectations from previous seasons. Therefore since I do not believe removing rows for player's first game of the season takes away siginifcant infromation from the dataset, I decided to drop the missing value rows.
